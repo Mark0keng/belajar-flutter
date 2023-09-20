@@ -1,8 +1,6 @@
 import 'package:belajar_flutter/model/tourism_place.dart';
 import 'package:flutter/material.dart';
 
-// var informationTextStyle = const TextStyle(fontFamily: 'Oxygen');
-
 class DetailScreen extends StatelessWidget {
   final TourismPlace place;
 
@@ -16,7 +14,26 @@ class DetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Image.asset(place.imageAsset),
+          SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            )),
+                      ),
+                      const FavoriteButton()
+                    ],
+                  ))),
           Container(
             margin: const EdgeInsets.only(top: 12.0),
             child: Text(
@@ -84,5 +101,30 @@ class DetailScreen extends StatelessWidget {
         ],
       ),
     )));
+  }
+}
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key}) : super(key: key);
+
+  @override
+  _FavoriteButtonState createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            isFavorite = !isFavorite;
+          });
+        },
+        icon: Icon(
+          isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: Colors.red,
+        ));
   }
 }
